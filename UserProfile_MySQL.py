@@ -26,7 +26,7 @@ user = {
     "last_name": result[2],
     "cell": result[3],
     "city": result[4],
-    "location": [result[5], result[6]],
+    "location": [result[6], result[5]],
     "school": result[7]
   }
 
@@ -34,23 +34,23 @@ user = {
 ## and store them in the user dictionary
 hobbies = []
 if (result[10]):
-    hobbies.append(result[10])
+  hobbies.append(result[10])
 for result in mycursor:
-    hobbies.append(result[10])
+  hobbies.append(result[10])
 user["hobbies"] = hobbies
 
 # UPDATE THE USER DICTIONARY BASED ON USER INPUT IN THE APP
 ## We'll just update the user dictionary manually for simplicity
 user.update( {
     "city": "Washington, DC",
-    "location": [38.897760, -77.036809],
+    "location": [-77.036809, 38.897760],
     "hobbies": ["scrapbooking", "eating waffles", "signing bills"]
     } )
 
 # UPDATE THE USER'S PROFILE IN THE DATABASE
 ## First update what is stored in the Users table
 sql = "UPDATE Users SET first_name=%s, last_name=%s, cell=%s, city=%s, latitude=%s, longitude=%s, school=%s WHERE (ID=%s)"
-values = (user["first_name"], user["last_name"], user["cell"], user["city"], user["location"][0], user["location"][1], user["school"], userId)
+values = (user["first_name"], user["last_name"], user["cell"], user["city"], user["location"][1], user["location"][0], user["school"], userId)
 mycursor.execute(sql, values)
 mydb.commit()
 
