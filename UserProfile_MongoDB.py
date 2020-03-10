@@ -19,8 +19,7 @@ user = db['Users'].find_one({"_id": userId})
 ## We'll just update the user dictionary manually to save space
 user.update( {
     "city": "Washington, DC",
-    "latitude": 38.897760,
-    "longitude": 77.036809,
+    "location": [-77.036809, 38.897760],
     "hobbies": ["scrapbooking", "eating waffles", "signing bills"]
     } )
 
