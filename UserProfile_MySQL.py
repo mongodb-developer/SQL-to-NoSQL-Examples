@@ -8,7 +8,7 @@ mydb = mysql.connector.connect(
   passwd="password",
   database="CityHall"
 )
-mycursor = mydb.cursor()
+mycursor = mydb.cursor(dictionary=True)
 
 # THE ID OF THE USER WHOSE PROFILE WE WILL BE RETRIEVING AND UPDATING
 userId = 1
@@ -18,25 +18,15 @@ userId = 1
 sql = "SELECT * FROM Users LEFT JOIN Hobbies ON Users.ID = Hobbies.user_id WHERE Users.id=%s"
 values = (userId,)
 mycursor.execute(sql, values)
-result = mycursor.fetchone()
-
-## Create the user dictionary with the basic contact information
-user = {
-    "first_name": result[1],
-    "last_name": result[2],
-    "cell": result[3],
-    "city": result[4],
-    "location": [result[6], result[5]],
-    "school": result[7]
-  }
+user = mycursor.fetchone()
 
 ## Loop through the remaining results in the cursor to get the list of hobbies 
 ## and store them in the user dictionary
 hobbies = []
-if (result[10]):
-  hobbies.append(result[10])
-for result in mycursor:
-  hobbies.append(result[10])
+if (user["hobby"]):
+  hobbies.append(user["hobby"])
+for user in mycursor:
+  hobbies.append(user["hobby"])
 user["hobbies"] = hobbies
 
 # UPDATE THE USER DICTIONARY BASED ON USER INPUT IN THE APP
