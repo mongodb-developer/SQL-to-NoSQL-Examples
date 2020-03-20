@@ -25,22 +25,25 @@ user = mycursor.fetchone()
 hobbies = []
 if (user["hobby"]):
   hobbies.append(user["hobby"])
-for user in mycursor:
-  hobbies.append(user["hobby"])
+del user["hobby"]
+del user["ID"]
+for result in mycursor:
+  hobbies.append(result["hobby"])
 user["hobbies"] = hobbies
 
 # UPDATE THE USER DICTIONARY BASED ON USER INPUT IN THE APP
 ## We'll just update the user dictionary manually for simplicity
 user.update( {
     "city": "Washington, DC",
-    "location": [-77.036809, 38.897760],
+    "latitude": 38.897760,
+    "longitude": -77.036809,
     "hobbies": ["scrapbooking", "eating waffles", "signing bills"]
     } )
 
 # UPDATE THE USER'S PROFILE IN THE DATABASE
 ## First update what is stored in the Users table
 sql = "UPDATE Users SET first_name=%s, last_name=%s, cell=%s, city=%s, latitude=%s, longitude=%s, school=%s WHERE (ID=%s)"
-values = (user["first_name"], user["last_name"], user["cell"], user["city"], user["location"][1], user["location"][0], user["school"], userId)
+values = (user["first_name"], user["last_name"], user["cell"], user["city"], user["latitude"], user["longitude"], user["school"], userId)
 mycursor.execute(sql, values)
 mydb.commit()
 
